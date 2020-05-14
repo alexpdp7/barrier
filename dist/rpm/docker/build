@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -ue
+
+source <(cat Build.properties | tr -d " ")
+export VERSION=$BARRIER_VERSION_MAJOR.$BARRIER_VERSION_MINOR.$BARRIER_VERSION_PATCH
+git archive HEAD --prefix barrier-$VERSION/ -o dist/rpm/docker/src.tar.gz
+docker build -t barrier-rpm dist/rpm/docker/
+docker run -i --rm --env COPR_LOGIN --env COPR_TOKEN --env VERSION barrier-rpm /root/build-in-docker

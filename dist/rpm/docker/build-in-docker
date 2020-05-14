@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -ue
+
+mkdir -p /root/src
+mv /root/src.tar.gz /root/rpmbuild/SOURCES/v$VERSION.tar.gz
+cd /root/src
+tar -xzvf /root/rpmbuild/SOURCES/v$VERSION.tar.gz
+cd barrier-$VERSION
+cmake .
+cd /root/src/barrier-$VERSION/rpm
+sed -i "s/-snapshot//" barrier.spec 
+rpmbuild -bs barrier.spec 
+
+mkdir -p ~/.config
+
+cat >~/.config/copr <<EOF
+[copr-cli]
+login = $COPR_LOGIN
+username = koalillo
+token = $COPR_TOKEN
+copr_url = https://copr.fedorainfracloud.org
+EOF
+
+copr-cli build barrier /root/rpmbuild/SRPMS/*
