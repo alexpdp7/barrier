@@ -73,6 +73,18 @@ jobs:
 #     - script: sh -x ./clean_build.sh
 #       displayName: Clean Build
 
+- job: LinuxCentos8RpmBuild
+  displayName: Linux CentOS 8 RPM Build
+  pool:
+    vmImage: 'ubuntu-18.04'
+  steps:
+    - checkout: self
+      submodules: true
+    - script: ./dist/rpm/docker/build
+      env:
+        COPR_LOGIN: $(COPR_LOGIN)
+        COPR_TOKEN: $(COPR_TOKEN)
+
 # - job: MacBuild
 #   displayName: Mac Build
 #   pool:

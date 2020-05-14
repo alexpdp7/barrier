@@ -1,0 +1,7 @@
+Create an account in COPR
+
+Create a new project
+
+Go to https://copr.fedorainfracloud.org/api/
+
+Extract $COPR_LOGIN, $COPR_TOKEN, which should be added to the Azure pipeline as secrets.
